@@ -5,13 +5,16 @@ import time
 import keyboard
 import os
 
+
 def get_image_files(folder_path):
-    image_files = [os.path.join(folder_path, file) for file in os.listdir(folder_path) if file.endswith(".png")]
+    image_files = [os.path.join(folder_path, file) for file in os.listdir(
+        folder_path) if file.endswith(".png")]
     return image_files
+
 
 def find_image_on_screen(image_path, screen, confidence=0.69):
     template = cv2.imread(image_path, cv2.IMREAD_COLOR)
-        
+
     if template is None:
         print(f"Failed to load image: {image_path}")
         return None
@@ -28,6 +31,7 @@ def find_image_on_screen(image_path, screen, confidence=0.69):
 
     return None
 
+
 def move_and_click(x, y):
     coords = (x, y)
     pyautogui.moveTo(coords, duration=0.1)
@@ -37,8 +41,10 @@ def move_and_click(x, y):
     pyautogui.mouseUp(coords)
     print(f"Moved mouse to and clicked on {coords}")
 
+
 def is_esc_pressed():
     return keyboard.is_pressed("esc")
+
 
 def search_and_click_images(image_names, screen, priority_order):
     for priority in priority_order:
@@ -51,6 +57,8 @@ def search_and_click_images(image_names, screen, priority_order):
     return False
 
 # Function used for clicks where a new screenshot needs to be grabbed every time
+
+
 def find_and_click_sequence(image_names, offsets, sleep_times):
     for i, image_name in enumerate(image_names):
         screen = pyautogui.screenshot()
@@ -70,14 +78,15 @@ def main():
     image_names = {
         'go_button': 'priority_buttons/go_button.png',
         'claim_button': 'priority_buttons/claim_button.png',
-        'recruit_button' : 'priority_buttons/recruit_button.png',
+        'recruit_button': 'priority_buttons/recruit_button.png',
         'horse_button': 'priority_buttons/horse_button.png',
         'gem_button': 'priority_buttons/gem_button.png'
     }
-    priority_order = ['go_button', 'claim_button', 'recruit_button', 'horse_button', 'gem_button']
+    priority_order = ['go_button', 'claim_button',
+                      'recruit_button', 'horse_button', 'gem_button']
     excl_point_offset = 75
     exclamation_point_cooldown = 2
-    last_exclamation_point_time  = 0
+    last_exclamation_point_time = 0
     idle_scouting_names = {
         'idle_scout': 'idle_scouting/idle_scout.png',
         'scout_button': 'idle_scouting/scouting_button.png',
@@ -89,16 +98,15 @@ def main():
     }
 
     idle_scout_sequence = [
-    (idle_scouting_names['idle_scout'], (0, -30), 5),
-    (idle_scouting_names['scout_button'], (0, 0), 3),
-    (idle_scouting_names['explore_button'], (0, -50), 1),
-    (idle_scouting_names['home_button'], (0, 0), 3),
-    (idle_scouting_names['scouting_base'], (0, 0), 1),
-    (idle_scouting_names['explore_button'], (0, 0), 1),
-    (idle_scouting_names['other_button'], (0, 0), 1),
-    (idle_scouting_names['visit_button'], (0, 0), 3),
+        (idle_scouting_names['idle_scout'], (0, -30), 5),
+        (idle_scouting_names['scout_button'], (0, 0), 3),
+        (idle_scouting_names['explore_button'], (0, -50), 1),
+        (idle_scouting_names['home_button'], (0, 0), 3),
+        (idle_scouting_names['scouting_base'], (0, 0), 1),
+        (idle_scouting_names['explore_button'], (0, 0), 1),
+        (idle_scouting_names['other_button'], (0, 0), 1),
+        (idle_scouting_names['visit_button'], (0, 0), ),
     ]
-
 
     print("Starting in 3 seconds. Please switch to the game window.")
     time.sleep(3)
@@ -121,7 +129,8 @@ def main():
             print("Could not find any priority images on screen.")
 
         if time.time() - last_exclamation_point_time >= exclamation_point_cooldown:
-            image_folder = "images"  # Replace this with the path to your folder containing the images
+            # Replace this with the path to your folder containing the images
+            image_folder = "images"
             image_files = get_image_files(image_folder)
 
             found_exclamation_point = False
@@ -144,6 +153,7 @@ def main():
             break
 
     print("ESC key pressed. Exiting.")
+
 
 if __name__ == "__main__":
     main()
