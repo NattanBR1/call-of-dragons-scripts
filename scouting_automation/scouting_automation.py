@@ -89,7 +89,8 @@ def main():
     last_exclamation_point_time = 0
     idle_scouting_names = {
         'idle_scout': 'idle_scouting/idle_scout.png',
-        'scout_button': 'idle_scouting/scouting_button.png',
+        'scout_button': 'idle_scouting/scout_explore_button.png',
+        'city_scout_button': 'idle_scouting/scout_explore_button.png',
         'explore_button': 'idle_scouting/explore_button.png',
         'home_button': 'idle_scouting/home_button.png',
         'scouting_base': 'idle_scouting/scouting_base.png',
@@ -102,10 +103,10 @@ def main():
         (idle_scouting_names['scout_button'], (0, 0), 3),
         (idle_scouting_names['explore_button'], (0, -50), 1),
         (idle_scouting_names['home_button'], (0, 0), 3),
-        (idle_scouting_names['scouting_base'], (0, 0), 1),
-        (idle_scouting_names['explore_button'], (0, 0), 1),
+        (idle_scouting_names['scouting_base'], (0, 0), 2),
+        (idle_scouting_names['city_scout_button'], (0, 0), 2),
         (idle_scouting_names['other_button'], (0, 0), 1),
-        (idle_scouting_names['visit_button'], (0, 0), ),
+        (idle_scouting_names['visit_button'], (0, 0), 1),
     ]
 
     print("Starting in 3 seconds. Please switch to the game window.")
@@ -117,8 +118,8 @@ def main():
         screen = cv2.cvtColor(np.array(screen), cv2.COLOR_RGB2BGR)
 
         # Idle scouting sequence
-        image_names, offsets, sleep_times = zip(*idle_scout_sequence)
-        find_and_click_sequence(image_names, offsets, sleep_times)
+        scouting_image_names, offsets, sleep_times = zip(*idle_scout_sequence)
+        find_and_click_sequence(scouting_image_names, offsets, sleep_times)
 
         # Search for and click images based on priority
         if search_and_click_images(image_names, screen, priority_order):
